@@ -1,6 +1,7 @@
 package jdbc;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -67,17 +68,50 @@ public class watchDemo {
 	}
 
 	private void deleteData() {
-		// TODO Auto-generated method stub
-		
+		try {
+			int id;
+			System.out.println("Enter the record no. to delete :");
+			id = sc.nextInt();
+			watch w = new watch();
+			w.setWatch_no(id);
+			
+			Connection con = getConnect();
+			String query = "delete from employee where id=?";
+			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
+			pst.setInt(1, id);
+			
+			int x=pst.executeUpdate();
+			if(x==1) {
+				System.out.println("");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void updateData() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	private void displayData() {
-		
+		try {
+			Connection con = getConnect();
+			String query = "select * from watch";
+			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
+			
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getDouble(4));
+				
+			}rs.close();
+			pst.close();
+			con.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
