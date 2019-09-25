@@ -76,13 +76,15 @@ public class watchDemo {
 			w.setWatch_no(id);
 			
 			Connection con = getConnect();
-			String query = "delete from employee where id=?";
+			String query = "delete from watch where id=?";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
 			pst.setInt(1, id);
 			
 			int x=pst.executeUpdate();
 			if(x==1) {
-				System.out.println("");
+				System.out.println("Record deleted.");
+			}else {
+				System.out.println("Record not found. ");
 			}
 			
 		}catch(Exception e) {
