@@ -56,7 +56,7 @@ public class watchDemo {
 	public Connection getConnect() throws SQLException {
 		try {
 		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-		Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/watches","admin","admin");
+		Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/watches?useSSL=false","admin","admin");
 		return con;
 		
 		}catch(Exception e){
@@ -77,7 +77,7 @@ public class watchDemo {
 	}
 
 	private void displayData() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -100,7 +100,18 @@ public class watchDemo {
 			Connection con = getConnect();
 			String query = "insert into watch (watch_name,watch_brand,watch_price)values(?,?,?)";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
+			pst.setString(1, w.getWatch_name());
+			pst.setString(2, w.getBrand());
+			pst.setDouble(3, w.getPrice());
 			
+			int x = pst.executeUpdate();
+			pst.close();
+			
+			if(x==1) {
+				System.out.println("Record Inserted Successfully.");
+			}else {
+				System.out.println("Something Error while Inserting Record");
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
