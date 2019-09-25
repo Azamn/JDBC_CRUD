@@ -94,7 +94,49 @@ public class watchDemo {
 
 	private void updateData() {
 		
+		watch w = new watch();
 		
+		  System.out.println("Enter the watch id / no :"); 
+		  int i = sc.nextInt();
+		  w.setWatch_no(i);
+		 
+		
+		System.out.println("Enter the Watch name :");
+		String wname = sc.next();
+		w.setWatch_name(wname);
+		
+		System.out.println("Enter the Watch Brand :");
+		String wbrand = sc.next();
+		w.setBrand(wbrand);
+		
+		System.out.println("Enter the Watch Price :");
+		Double wprice = sc.nextDouble();
+		w.setPrice(wprice);
+		
+		
+		try {
+			
+			Connection con = getConnect();
+			String query = "update watch set watch_name=?, watch_brand=?, watch_price=? where id=?";
+			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
+			pst.setInt(1, w.getWatch_no());
+			pst.setString(2, w.getWatch_name());
+			pst.setString(3, w.getBrand());
+			pst.setDouble(4, w.getPrice());
+			
+			int x = pst.executeUpdate();
+			pst.close();
+			con.close();
+			
+			if(x==1) {
+				System.out.println("Successfully updated ." );
+			}else {
+				System.out.println("Record not Found.");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void displayData() {
