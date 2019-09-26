@@ -73,10 +73,10 @@ public class watchDemo {
 			System.out.println("Enter the record no. to delete :");
 			id = sc.nextInt();
 			watch w = new watch();
-			w.setWatch_no(id);
+			w.setWatch_id(id);
 			
 			Connection con = getConnect();
-			String query = "delete from watch where id=?";
+			String query = "delete from watch where watch_id=?";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
 			pst.setInt(1, id);
 			
@@ -98,7 +98,7 @@ public class watchDemo {
 		
 		  System.out.println("Enter the watch id / no :"); 
 		  int i = sc.nextInt();
-		  w.setWatch_no(i);
+		  w.setWatch_id(i);
 		 
 		
 		System.out.println("Enter the Watch name :");
@@ -117,12 +117,12 @@ public class watchDemo {
 		try {
 			
 			Connection con = getConnect();
-			String query = "update watch set watch_name=?, watch_brand=?, watch_price=? where id=?";
+			String query = "update watch set watch_name=?, watch_brand=?, watch_price=? where watch_id=?";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
-			pst.setInt(1, w.getWatch_no());
-			pst.setString(2, w.getWatch_name());
-			pst.setString(3, w.getBrand());
-			pst.setDouble(4, w.getPrice());
+			pst.setString(1, w.getWatch_name());
+			pst.setString(2, w.getBrand());
+			pst.setDouble(3, w.getPrice());
+			pst.setInt(4, w.getWatch_id());
 			
 			int x = pst.executeUpdate();
 			pst.close();
@@ -162,6 +162,11 @@ public class watchDemo {
 	private void insertData() {
 		// TODO Auto-generated method stub
 		watch w = new watch();
+		
+		System.out.println("Enter watch Number / watch id : ");
+		int wid = sc.nextInt();
+		w.setWatch_id(wid);
+		
 		System.out.println("Enter watch name : ");
 		String wname = sc.next();
 		w.setWatch_name(wname);
@@ -173,17 +178,20 @@ public class watchDemo {
 		System.out.println("Enter watch Price : ");
 		Double wprice = sc.nextDouble();
 		w.setPrice(wprice);
+	
 		
 		try {
 			Connection con = getConnect();
-			String query = "insert into watch (watch_name,watch_brand,watch_price)values(?,?,?)";
+			String query = "insert into watch (watch_id,watch_name,watch_brand,watch_price)values(?,?,?,?)";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(query);
-			pst.setString(1, w.getWatch_name());
-			pst.setString(2, w.getBrand());
-			pst.setDouble(3, w.getPrice());
+			pst.setInt(1, w.getWatch_id());
+			pst.setString(2, w.getWatch_name());
+			pst.setString(3, w.getBrand());
+			pst.setDouble(4, w.getPrice());
 			
 			int x = pst.executeUpdate();
 			pst.close();
+			con.close();
 			
 			if(x==1) {
 				System.out.println("Record Inserted Successfully.");
